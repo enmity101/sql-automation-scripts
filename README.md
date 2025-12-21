@@ -1,5 +1,4 @@
----
-
+```markdown
 # ⚙️ SQL Automation Project
 
 ## Project Overview  
@@ -68,5 +67,4 @@ Tables commonly used in automation workflows:
 - **Accuracy:** Reduces human error in reporting.  
 - **Scalability:** Easily extendable to new datasets.  
 - **Professionalism:** Clear structure and documentation for long-term use.  
-
---
+```
