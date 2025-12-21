@@ -39,32 +39,89 @@ Tables commonly used in automation workflows:
 
 ---
 
-## Example Queries  
-1. **Daily Sales Report**  
-   ```sql
-   SELECT DATE(order_date) AS day, SUM(amount) AS total_sales
-   FROM transactions
-   GROUP BY day;
-   ```
-2. **Top Customers by Spend**  
-   ```sql
-   SELECT customer_id, SUM(amount) AS total_spent
-   FROM transactions
-   GROUP BY customer_id
-   ORDER BY total_spent DESC
-   LIMIT 10;
-   ```
-3. **Data Cleanup**  
-   ```sql
-   DELETE FROM customers
-   WHERE email IS NULL OR TRIM(email) = '';
-   ```
+## Example Queries 
+
+### 1. Total Layoffs by Industry
+```sql
+SELECT industry, SUM(total_laid_off) AS total_layoffs
+FROM layoffs
+WHERE total_laid_off IS NOT NULL
+GROUP BY industry
+ORDER BY total_layoffs DESC;
+```
+👉 Shows which industries were most impacted.
 
 ---
 
-## Key Benefits  
-- **Efficiency:** Automates repetitive SQL tasks.  
-- **Accuracy:** Reduces human error in reporting.  
-- **Scalability:** Easily extendable to new datasets.  
-- **Professionalism:** Clear structure and documentation for long-term use.  
+### 2. Top 10 Companies by Layoffs
+```sql
+SELECT company, SUM(total_laid_off) AS total_layoffs
+FROM layoffs
+WHERE total_laid_off IS NOT NULL
+GROUP BY company
+ORDER BY total_layoffs DESC
+LIMIT 10;
 ```
+👉 Identifies the largest layoffs by company.
+
+---
+
+### 3. Layoffs by Country
+```sql
+SELECT country, SUM(total_laid_off) AS total_layoffs
+FROM layoffs
+WHERE total_laid_off IS NOT NULL
+GROUP BY country
+ORDER BY total_layoffs DESC;
+```
+👉 Useful for geographic comparisons.
+
+---
+
+### 4. Average Percentage Laid Off by Industry
+```sql
+SELECT industry, AVG(percentage_laid_off) AS avg_percentage
+FROM layoffs
+WHERE percentage_laid_off IS NOT NULL
+GROUP BY industry
+ORDER BY avg_percentage DESC;
+```
+👉 Highlights industries with the highest relative impact.
+
+---
+
+### 5. Funding vs. Layoffs Correlation
+```sql
+SELECT company, funds_raised_millions, total_laid_off
+FROM layoffs
+WHERE funds_raised_millions IS NOT NULL
+  AND total_laid_off IS NOT NULL
+ORDER BY funds_raised_millions DESC;
+```
+👉 Lets you analyze whether higher funding correlates with larger layoffs.
+
+---
+
+### 6. Layoffs Over Time
+```sql
+SELECT DATE(date) AS layoff_date, SUM(total_laid_off) AS daily_layoffs
+FROM layoffs
+WHERE total_laid_off IS NOT NULL
+GROUP BY DATE(date)
+ORDER BY layoff_date;
+```
+👉 Reveals trends and peaks across months.
+
+---
+
+### 7. Stage-wise Layoffs
+```sql
+SELECT stage, SUM(total_laid_off) AS total_layoffs
+FROM layoffs
+WHERE total_laid_off IS NOT NULL
+GROUP BY stage
+ORDER BY total_layoffs DESC;
+```
+👉 Compares layoffs across funding stages (Seed, Series A, Post-IPO, etc.).
+
+---
